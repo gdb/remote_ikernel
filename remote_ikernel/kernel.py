@@ -189,6 +189,8 @@ class RemoteIKernel(object):
             self.launch_sge()
         elif self.interface == 'ssh':
             self.launch_ssh()
+        elif self.interface == 'mosh':
+            self.launch_ssh()
         elif self.interface == 'slurm':
             self.launch_slurm()
         else:
@@ -234,7 +236,24 @@ class RemoteIKernel(object):
             launch_args = self.launch_args
         else:
             launch_args = ''
-        login_cmd = 'ssh -o StrictHostKeyChecking=no {args} {host}'.format(
+        login_cmd = 'ssh {args} {host}'.format(
+            args=launch_args, host=self.host)
+        self.log.debug("Login command: '{0}'.".format(login_cmd))
+        self._spawn(login_cmd)
+        check_password(self.connection)
+
+    def launch_mosh(self):
+        """
+        Initialise a connection through mosh.
+
+        Launch an mosh connection using pexpect so it can be interacted with.
+        """
+        self.log.info("Launching kernel over SSH.")
+        if self.launch_args:
+            launch_args = self.launch_args
+        else:
+            launch_args = ''
+        login_cmd = 'mosh {args} {host}'.format(
             args=launch_args, host=self.host)
         self.log.debug("Login command: '{0}'.".format(login_cmd))
         self._spawn(login_cmd)
