@@ -5,9 +5,9 @@ try:
 except ImportError:
     from distutils.core import setup
 
-setup(name='remote_ikernel',
-      version='0.4.1',
-      description='Running IPython kernels through batch queues',
+setup(name='remote_ikernel_mosh',
+      version='0.4.3',
+      description='Running IPython kernels through batch queues. A fork of the original that supports mosh.',
       long_description=open('README.rst').read(),
       author='Tom Daff',
       author_email='tdd20@cam.ac.uk',

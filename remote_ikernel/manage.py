@@ -103,6 +103,15 @@ def add_kernel(interface, name, kernel_cmd, cpus=1, pe=None, language=None,
         kernel_name.append(host)
         display_name.append("SSH")
         display_name.append(host)
+    elif interface == 'mosh':
+        if host is None:
+            raise KeyError('A host is required for mosh.')
+        argv.extend(['--interface', 'mosh'])
+        argv.extend(['--host', host])
+        kernel_name.append('mosh')
+        kernel_name.append(host)
+        display_name.append("MOSH")
+        display_name.append(host)
     elif interface == 'slurm':
         argv.extend(['--interface', 'slurm'])
         kernel_name.append('slurm')
@@ -230,7 +239,7 @@ def manage():
                         "running through an SSH connection. For non standard "
                         "ports use host:port.")
     parser.add_argument('--interface', '-i',
-                        choices=['local', 'ssh', 'pbs', 'sge', 'slurm'],
+                        choices=['local', 'ssh', 'mosh', 'pbs', 'sge', 'slurm'],
                         help="Specify how the remote kernel is launched.")
     parser.add_argument('--system', help="Install the kernel into the system "
                         "directory so that it is available for all users. "

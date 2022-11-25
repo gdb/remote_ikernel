@@ -127,6 +127,8 @@ def check_password(connection):
             # Nothing more to read from the output
             return
 
+        if hasattr(text, 'decode'):
+            text = text.decode()
         re_passphrase = re.search('Enter passphrase .*:', text)
         re_password = re.search('.*@.* password:', text)
         if re_passphrase:
